@@ -1,4 +1,4 @@
-package com.orglegal.fam.features.catalog.presentation
+package com.orglegal.fam.features.catalog.presentation.composables
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -29,7 +29,9 @@ import com.orglegal.fam.features.catalog.domain.model.Social
 import com.orglegal.fam.features.catalog.domain.model.mockedAbout
 import com.orglegal.fam.ui.theme.FeitoAMãoTheme
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.ui.platform.LocalContext
 
 import androidx.core.content.ContextCompat.startActivity
@@ -38,6 +40,14 @@ import androidx.core.content.ContextCompat.startActivity
 @Preview
 @Composable
 fun PreviewAboutMe() {
+    FeitoAMãoTheme {
+        AboutMe(mockedAbout)
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewAboutMeDark() {
     FeitoAMãoTheme {
         AboutMe(mockedAbout)
     }
@@ -67,6 +77,7 @@ fun AboutMe(about: About) {
                     model = about.owner.imageUrl,
                     contentDescription = "avatar",
                     contentScale = ContentScale.Crop,
+                    placeholder = painterResource(id = R.drawable.person_placeholder),
                     modifier = Modifier
                         .size(80.dp)
                         .clip(CircleShape)
@@ -78,12 +89,15 @@ fun AboutMe(about: About) {
                         text = about.owner.name,
                         maxLines = 1,
                         overflow = TextOverflow.Ellipsis,
-                        style = MaterialTheme.typography.h6
+                        style = MaterialTheme.typography.h6,
+                        color = MaterialTheme.colors.onBackground
                     )
                     Text(
                         text = about.owner.biography,
                         maxLines = 4,
-                        overflow = TextOverflow.Ellipsis
+                        overflow = TextOverflow.Ellipsis,
+                        color = MaterialTheme.colors.onBackground,
+                        modifier = Modifier.padding(top = 8.dp)
                     )
                 }
             }
@@ -122,6 +136,12 @@ fun SocialItemList(
     social: Social,
     itemClickCallback: (url: String) -> Unit
 ) {
+    val color: ColorFilter = if (isSystemInDarkTheme()) {
+        ColorFilter.tint(MaterialTheme.colors.primary)
+    } else {
+        ColorFilter.tint(Color.White)
+    }
+
     Image(
         modifier = Modifier
             .clickable { itemClickCallback(social.url) }
@@ -129,6 +149,6 @@ fun SocialItemList(
             .size(24.dp),
         painter = painterResource(id = social.type.resId ?: R.drawable.ic_round_image),
         contentDescription = "${social.host} icon",
-        colorFilter = ColorFilter.tint(Color.White),
+        colorFilter = color,
     )
 }
