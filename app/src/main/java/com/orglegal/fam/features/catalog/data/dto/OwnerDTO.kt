@@ -11,8 +11,8 @@ data class OwnerDTO(
 
 fun OwnerDTO.toOwner() : Owner {
     return Owner(
-        name = this.name,
-        biography = this.biography,
-        imageUrl = this.imageUrl
+        name = name,
+        biography = biography,
+        imageUrl = imageUrl
     )
 }

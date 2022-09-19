@@ -7,9 +7,13 @@ data class AboutDTO(
     val socials: List<SocialDTO>
 )
 
+data class AboutResult(
+    val about: AboutDTO
+)
+
 fun AboutDTO.toAbout() : About {
     return About(
-        owner = this.owner.toOwner(),
-        socials = this.socials.toSocials()
+        owner = owner.toOwner(),
+        socials = socials.map { it.toSocial() }
     )
 }

@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.orglegal.fam.features.catalog.presentation.composables.AboutError
 import com.orglegal.fam.features.catalog.presentation.composables.AboutMe
+import com.orglegal.fam.features.catalog.presentation.composables.CatalogError
 import com.orglegal.fam.features.catalog.presentation.composables.Header
 import com.orglegal.fam.ui.theme.FeitoAMãoTheme
 
@@ -26,6 +27,8 @@ fun CatalogScreen(
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
         Header()
+
+        state.catalogError?.let { CatalogError(errorMessage = it) }
 
         // Footer
         Column(verticalArrangement = Arrangement.Bottom) {

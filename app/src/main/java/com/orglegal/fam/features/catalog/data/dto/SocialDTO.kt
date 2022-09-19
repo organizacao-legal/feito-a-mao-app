@@ -8,15 +8,11 @@ data class SocialDTO(
     val url: String
 )
 
-fun List<SocialDTO>.toSocials(): List<Social> {
-    return this.map { it.toSocial() }
-}
-
 fun SocialDTO.toSocial(): Social {
     return Social(
-        host = this.host,
-        url = this.url,
-        type = mapSocial(this.host)
+        host = host,
+        url = url,
+        type = mapSocial(host)
     )
 }
 

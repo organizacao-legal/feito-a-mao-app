@@ -1,13 +1,20 @@
 package com.orglegal.fam.features.catalog.presentation.composables
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Icon
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ErrorOutline
+import androidx.compose.material.icons.filled.NearbyError
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
@@ -106,4 +113,43 @@ fun CategoryImageItem(image: Image, modifier: Modifier) {
         contentScale = ContentScale.Crop,
         placeholder = painterResource(id = R.drawable.ic_round_image)
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun PreviewCatalogError(){
+    FeitoAMãoTheme {
+        CatalogError("There was an error")
+    }
+}
+
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
+@Composable
+fun PreviewCatalogErrorDark(){
+    FeitoAMãoTheme {
+        CatalogError("There was an error")
+    }
+}
+
+@Composable
+fun CatalogError(errorMessage: String) {
+    Column(
+        modifier = Modifier.padding(horizontal = 20.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            modifier = Modifier.size(50.dp),
+            imageVector = Icons.Default.NearbyError,
+            contentDescription = "Error icon",
+            tint = MaterialTheme.colors.error
+        )
+        Text(
+            modifier = Modifier.padding(top = 8.dp),
+            text = errorMessage,
+            color = MaterialTheme.colors.onBackground
+        )
+    }
 }

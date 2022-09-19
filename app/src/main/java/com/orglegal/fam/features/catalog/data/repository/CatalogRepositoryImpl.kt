@@ -1,6 +1,7 @@
 package com.orglegal.fam.features.catalog.data.repository
 
 import com.orglegal.fam.features.catalog.data.dto.toAbout
+import com.orglegal.fam.features.catalog.data.dto.toCatalog
 import com.orglegal.fam.features.catalog.data.remote.CatalogApi
 import com.orglegal.fam.features.catalog.domain.model.About
 import com.orglegal.fam.features.catalog.domain.model.Catalog
@@ -15,7 +16,7 @@ class CatalogRepositoryImpl @Inject constructor(
     override suspend fun getCatalog(): Resource<Catalog> {
         return try {
             val response = api.getCatalog()
-            val result = response.body()
+            val result = response.body()?.toCatalog()
 
             if (response.isSuccessful && result != null) {
                 Resource.Success(result)
@@ -29,7 +30,7 @@ class CatalogRepositoryImpl @Inject constructor(
 
     override suspend fun getAbout(): Resource<About> {
         return try { val response = api.getConsts()
-            val result = response.body()?.toAbout()
+            val result = response.body()?.about?.toAbout()
 
             if (response.isSuccessful && result != null) {
                 Resource.Success(result)
