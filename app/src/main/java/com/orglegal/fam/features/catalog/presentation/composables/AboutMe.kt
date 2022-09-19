@@ -32,8 +32,10 @@ import android.content.Intent
 import android.content.res.Configuration
 import android.net.Uri
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Error
 import androidx.compose.ui.platform.LocalContext
-
 import androidx.core.content.ContextCompat.startActivity
 
 
@@ -151,4 +153,46 @@ fun SocialItemList(
         contentDescription = "${social.host} icon",
         colorFilter = color,
     )
+}
+
+@Preview
+@Composable
+fun PreviewAboutError() {
+    FeitoAMãoTheme {
+        AboutError(errorMessage = "Something happened.")
+    }
+}
+
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
+@Composable
+fun PreviewAboutErrorDark() {
+    FeitoAMãoTheme {
+        AboutError(errorMessage = "Something happened.")
+    }
+}
+
+@Composable
+fun AboutError(errorMessage: String) {
+    Surface(
+        modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentHeight()
+            .clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),
+        color = MaterialTheme.colors.surface,
+    ) {
+        Row(
+            modifier = Modifier.padding(20.dp)
+        ) {
+            Icon(
+                imageVector = Icons.Default.Error,
+                contentDescription = "Error icon",
+                tint = MaterialTheme.colors.error
+            )
+            Text(
+                modifier = Modifier.padding(start = 12.dp),
+                text = errorMessage,
+                color = MaterialTheme.colors.onBackground
+            )
+        }
+    }
 }

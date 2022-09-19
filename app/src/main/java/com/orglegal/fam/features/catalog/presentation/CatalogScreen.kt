@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.orglegal.fam.features.catalog.presentation.composables.AboutError
 import com.orglegal.fam.features.catalog.presentation.composables.AboutMe
 import com.orglegal.fam.features.catalog.presentation.composables.Header
 import com.orglegal.fam.ui.theme.FeitoAMãoTheme
@@ -24,16 +25,17 @@ fun CatalogScreen(
     val state = viewModel.state.value
 
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-        LazyColumn {
-            item {
-                Header()
+        Header()
 
-                Column(verticalArrangement = Arrangement.Bottom) {
-                    state.about?.let { AboutMe(it) }
-                    state.aboutError?.let { Text(text = it) }
-                }
-            }
+        // Footer
+        Column(verticalArrangement = Arrangement.Bottom) {
+            state.about?.let { AboutMe(it) }
+            state.aboutError?.let { AboutError(it) }
         }
+//        LazyColumn {
+//            item {
+//            }
+//        }
 
     }
 }
