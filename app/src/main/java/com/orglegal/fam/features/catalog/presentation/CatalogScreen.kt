@@ -5,25 +5,32 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.orglegal.fam.features.catalog.domain.model.mockedAbout
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.orglegal.fam.features.catalog.presentation.composables.AboutMe
 import com.orglegal.fam.features.catalog.presentation.composables.Header
 import com.orglegal.fam.ui.theme.FeitoAMãoTheme
 
 @Composable
-fun CatalogScreen() {
+fun CatalogScreen(
+    viewModel: CatalogViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.value
+
     Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
         LazyColumn {
             item {
                 Header()
 
                 Column(verticalArrangement = Arrangement.Bottom) {
-                    AboutMe(mockedAbout)
+                    state.about?.let { AboutMe(it) }
+                    state.aboutError?.let { Text(text = it) }
                 }
             }
         }
