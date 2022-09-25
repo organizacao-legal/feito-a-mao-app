@@ -37,7 +37,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Error
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat.startActivity
-
+import com.orglegal.fam.features.catalog.utils.composables.ExpandableText
 
 @Preview
 @Composable
@@ -72,7 +72,7 @@ fun AboutMe(about: About) {
                 .padding(20.dp)
         ) {
             Row(
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.Top,
 
                 ) {
                 AsyncImage(
@@ -81,6 +81,7 @@ fun AboutMe(about: About) {
                     contentScale = ContentScale.Crop,
                     placeholder = painterResource(id = R.drawable.person_placeholder),
                     modifier = Modifier
+                        .padding(top = 8.dp)
                         .size(80.dp)
                         .clip(CircleShape)
                 )
@@ -94,11 +95,9 @@ fun AboutMe(about: About) {
                         style = MaterialTheme.typography.h6,
                         color = MaterialTheme.colors.onBackground
                     )
-                    Text(
+                    ExpandableText(
                         text = about.owner.biography,
                         maxLines = 4,
-                        overflow = TextOverflow.Ellipsis,
-                        color = MaterialTheme.colors.onBackground,
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }
