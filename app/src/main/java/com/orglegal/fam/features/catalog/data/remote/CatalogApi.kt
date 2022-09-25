@@ -1,6 +1,6 @@
 package com.orglegal.fam.features.catalog.data.remote
 
-import com.orglegal.fam.features.catalog.data.dto.AboutResult
+import com.orglegal.fam.features.catalog.data.dto.AboutDTO
 import com.orglegal.fam.features.catalog.data.dto.CatalogDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -11,5 +11,5 @@ interface CatalogApi {
     suspend fun getCatalog() : Response<CatalogDTO>
 
     @GET("consts")
-    suspend fun getConsts() : Response<AboutResult>
+    suspend fun getConsts() : Response<AboutDTO>
 }
