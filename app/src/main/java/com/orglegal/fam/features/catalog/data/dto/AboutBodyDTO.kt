@@ -12,11 +12,6 @@ data class AboutBodyDTO(
 )
 
 fun AboutBodyDTO.toAbout(): About {
-data class AboutResult(
-    val about: AboutDTO
-)
-
-fun AboutDTO.toAbout() : About {
     return About(
         owner = owner.toOwner(),
         socials = socials.map { it.toSocial() }
