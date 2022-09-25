@@ -7,6 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.orglegal.fam.features.catalog.domain.repository.CatalogRepository
 import com.orglegal.fam.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,10 +18,19 @@ class CatalogViewModel @Inject constructor(
     private val catalogRepository: CatalogRepository
 ) : ViewModel() {
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean>
+        get() = _isRefreshing.asStateFlow()
+
     private val _state = mutableStateOf(CatalogState())
     val state: State<CatalogState> = _state
 
     init {
+        refresh()
+    }
+
+    fun refresh() {
+        _state.value = CatalogState()
         onEvent(CatalogEvent.FetchCatalog)
         onEvent(CatalogEvent.FetchAbout)
     }

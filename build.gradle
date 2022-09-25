@@ -3,6 +3,7 @@ buildscript {
         compose_version = '1.2.1'
         kotlin_version = '1.7.10'
         hilt_version = '2.42'
+        accompanist_version = '0.25.1'
     }
 
     dependencies {
