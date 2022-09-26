@@ -1,4 +1,4 @@
-package com.orglegal.fam.features.catalog.presentation
+package com.orglegal.fam.features.catalog.presentation.catalog
 
 import com.orglegal.fam.features.catalog.domain.model.About
 import com.orglegal.fam.features.catalog.domain.model.Catalog

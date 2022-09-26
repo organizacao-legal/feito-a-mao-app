@@ -1,4 +1,4 @@
-package com.orglegal.fam.features.catalog.presentation
+package com.orglegal.fam.features.catalog.presentation.catalog
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn

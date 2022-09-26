@@ -1,4 +1,4 @@
-package com.orglegal.fam.features.catalog.presentation
+package com.orglegal.fam.features.catalog.presentation.catalog
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
