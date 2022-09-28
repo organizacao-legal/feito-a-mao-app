@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.FilterQuality
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
@@ -106,7 +107,8 @@ fun CategoryImageItem(param: ImageParameter, onShowListCompleteClick: () -> Unit
                 model = image.imageUrl,
                 contentDescription = image.contentDescription,
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(id = R.drawable.ic_round_image)
+                placeholder = painterResource(id = R.drawable.ic_round_image),
+                filterQuality = FilterQuality.Low
             )
             if (isLast) {
                 Box(modifier = Modifier.clickable { onShowListCompleteClick() }) {

@@ -27,9 +27,7 @@ class MainActivity : ComponentActivity() {
                 ){
                     composable(Routes.CATALOG) {
                         CatalogScreen(
-                            onNavigate = {
-                                navController.navigate(it.route)
-                            }
+                            onNavigate = { navController.navigate(it.route) }
                         )
                     }
                     composable(
@@ -40,7 +38,9 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     ) {
-                        FullListScreen()
+                        FullListScreen(
+                            onPopBackStack = { navController.popBackStack() }
+                        )
                     }
                 }
             }
