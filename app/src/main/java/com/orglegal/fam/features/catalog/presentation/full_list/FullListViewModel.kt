@@ -34,7 +34,7 @@ class FullListViewModel @Inject constructor(
     init {
         savedStateHandle.get<Category>("category").let { category ->
             if (category == null) {
-                _state.value = _state.value.copy(failure = "Deu erro :c")
+                _state.value = _state.value.copy(failure = "Algo deu errado, tente recarregar.")
             } else {
                 _state.value = _state.value.copy(success = category)
             }

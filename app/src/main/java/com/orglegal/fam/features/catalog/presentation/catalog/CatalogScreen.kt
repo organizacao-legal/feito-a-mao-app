@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,18 +32,19 @@ fun CatalogScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.uiEvent.collect { event ->
-            when(event) {
+            when (event) {
                 is UiEvent.Navigate -> onNavigate(event)
                 else -> Unit
             }
         }
     }
 
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshing),
-            onRefresh = { viewModel.refresh() }
-        ) {
+
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = { viewModel.refresh() }
+    ) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
             LazyColumn {
                 item {
                     Header()
@@ -70,10 +72,19 @@ fun CatalogScreen(
                 item {
                     state.about?.let { AboutMe(it) }
                 }
+            }
+        }
 
-                item {
-                    state.aboutError?.let { AboutError(it) }
-                }
+        Box(modifier = Modifier.fillMaxSize()) {
+            state.catalogError?.let {
+                CatalogError(
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    errorMessage = it
+                )
+            }
+            state.aboutError?.let {
+                AboutError(it, modifier = Modifier.align(Alignment.BottomCenter))
             }
         }
     }

@@ -163,9 +163,9 @@ fun PreviewCatalogErrorDark() {
 }
 
 @Composable
-fun CatalogError(errorMessage: String) {
+fun CatalogError(errorMessage: String, modifier: Modifier = Modifier) {
     Column(
-        modifier = Modifier.padding(horizontal = 20.dp),
+        modifier = modifier.padding(horizontal = 20.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
