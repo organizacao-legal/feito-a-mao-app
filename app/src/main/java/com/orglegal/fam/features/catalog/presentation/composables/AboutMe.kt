@@ -171,9 +171,9 @@ fun PreviewAboutErrorDark() {
 }
 
 @Composable
-fun AboutError(errorMessage: String) {
+fun AboutError(errorMessage: String, modifier: Modifier = Modifier) {
     Surface(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight()
             .clip(shape = RoundedCornerShape(topStart = 10.dp, topEnd = 10.dp)),

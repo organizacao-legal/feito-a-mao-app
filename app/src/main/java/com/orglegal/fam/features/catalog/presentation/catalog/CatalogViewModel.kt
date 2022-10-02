@@ -1,15 +1,20 @@
-package com.orglegal.fam.features.catalog.presentation
+package com.orglegal.fam.features.catalog.presentation.catalog
 
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.orglegal.fam.features.catalog.domain.model.toStringJson
 import com.orglegal.fam.features.catalog.domain.repository.CatalogRepository
 import com.orglegal.fam.util.Resource
+import com.orglegal.fam.util.Routes
+import com.orglegal.fam.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -25,6 +30,9 @@ class CatalogViewModel @Inject constructor(
     private val _state = mutableStateOf(CatalogState())
     val state: State<CatalogState> = _state
 
+    private val _uiEvent = Channel<UiEvent>()
+    val uiEvent = _uiEvent.receiveAsFlow()
+
     init {
         refresh()
     }
@@ -37,8 +45,12 @@ class CatalogViewModel @Inject constructor(
 
     fun onEvent(event: CatalogEvent) {
         when (event) {
-            CatalogEvent.FetchCatalog -> fetchCatalog()
-            CatalogEvent.FetchAbout -> fetchAbout()
+            is CatalogEvent.FetchCatalog -> fetchCatalog()
+            is CatalogEvent.FetchAbout -> fetchAbout()
+            is CatalogEvent.SendToCategoryAllListScreen -> {
+                val route = Routes.CATEGORY_FULL_LIST + "?category=${event.category.toStringJson()}"
+                sendUiEvent(UiEvent.Navigate(route))
+            }
         }
     }
 
@@ -81,6 +93,12 @@ class CatalogViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    private fun sendUiEvent(event: UiEvent) {
+        viewModelScope.launch {
+            _uiEvent.send(event)
         }
     }
 

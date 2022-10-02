@@ -1,4 +1,4 @@
-package com.orglegal.fam.features.catalog.presentation
+package com.orglegal.fam.features.catalog.presentation.catalog
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -7,8 +7,10 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -18,19 +20,31 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.orglegal.fam.features.catalog.presentation.composables.*
+import com.orglegal.fam.util.UiEvent
 
 @Composable
 fun CatalogScreen(
+    onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: CatalogViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.value
     val isRefreshing by viewModel.isRefreshing.collectAsState()
 
-    Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
-        SwipeRefresh(
-            state = rememberSwipeRefreshState(isRefreshing),
-            onRefresh = { viewModel.refresh() }
-        ) {
+    LaunchedEffect(key1 = true) {
+        viewModel.uiEvent.collect { event ->
+            when (event) {
+                is UiEvent.Navigate -> onNavigate(event)
+                else -> Unit
+            }
+        }
+    }
+
+
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing),
+        onRefresh = { viewModel.refresh() }
+    ) {
+        Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colors.background) {
             LazyColumn {
                 item {
                     Header()
@@ -47,20 +61,30 @@ fun CatalogScreen(
                         )
                         StaggeredCategoryGrid(
                             images = category.images,
-                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp)
-                        ) {
-                            // todo: send to show complete list screen
-                        }
+                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
+                            onShowListCompleteClick = {
+                                viewModel.onEvent(CatalogEvent.SendToCategoryAllListScreen(category))
+                            }
+                        )
                     }
                 }
 
                 item {
                     state.about?.let { AboutMe(it) }
                 }
+            }
+        }
 
-                item {
-                    state.aboutError?.let { AboutError(it) }
-                }
+        Box(modifier = Modifier.fillMaxSize()) {
+            state.catalogError?.let {
+                CatalogError(
+                    modifier = Modifier
+                        .align(Alignment.Center),
+                    errorMessage = it
+                )
+            }
+            state.aboutError?.let {
+                AboutError(it, modifier = Modifier.align(Alignment.BottomCenter))
             }
         }
     }
